@@ -220,7 +220,68 @@ nmap --help
 
 ## Ejemplos de comandos 
 
-Para todos los ejemplos que vamos a ver, usarémos la página 
+Para todos los ejemplos que vamos a ver, usarémos la página http://scanme.nmap.org/
+
+#### Escaneo mediante el nombre de host
+
+`nmap scanme.nmap.org`
+
+#### Escanear utilizando la opción “-v” 
+
+Se puede ver que el siguiente comando con la opción “-v” está dando una información más detallada acerca de la máquina remota.
+
+`nmap -v scanme.nmap.org`
 
 
+#### Analizar la lista de los ejércitos de un archivo
+
+`nmap -iL nmaptest.txt`
+
+#### Información Scan OS y Traceroute
+
+Con Nmap, puede detectar qué sistema operativo y la versión que está ejecutando en el host remoto. Para habilitar la detección de sistema operativo y versión, la exploración de la escritura y la Ruta de seguimiento, podemos usar la opción “-A” con NMAP.
+
+`nmap -A scanme.nmap.org`
+
+#### Activar la Detección de OS con Nmap
+
+Utilice la opción “-O” y “-osscan-guess” también ayuda a descubrir la información del sistema operativo.
+ 
+`nmap -O scanme.nmap.org`
+
+#### Escanear un anfitrión para Detectar Firewall 
+
+El siguiente comando realizará una búsqueda en un host remoto para detectar si los filtros de paquetes o Firewall se utiliza por el anfitrión.
+
+`nmap -sA scanme.nmap.org`
+
+#### Escanear un anfitrión para comprobar su protección por Firewall
+
+`nmap -PN scanme.nmap.org`
+
+#### Encontrar versión Host Services Números
+
+Podemos encontrar versiones de servicios que se ejecutan en máquinas remotas con la opción “-sV”.
+
+`nmap -sV scanme.nmap.org`
+
+#### Analizar hosts remotos a través de TCP ACK (PA) y TCP Syn (PS)
+
+A veces, los cortafuegos de filtrado de paquetes bloquea las solicitudes de ping ICMP estándar, en ese caso, podemos utilizar métodos TCP ACK y TCP Syn para escanear hosts remotos.
+
+`nmap -PS scanme.nmap.org`
+
+#### Escaneo FIN de Nmap
+
+Escaneo FIN agresivo
+
+`nmap -sF -T4 scanme.nmap.org`
+
+Escaneo insanamente agresivo de tipo FIN contra un dispositivo.
+
+`nmap -sF -T5 scanme.nmap.org`
+
+------------------------------
+
+Espero que este escrito sea de su agrado, fue pensado para intruducirnos en el tema de los escaneos en NMAP.
 

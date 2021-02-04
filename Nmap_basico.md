@@ -65,15 +65,21 @@ Ejemplos:
 Instalando desde RPMs 
 ```
 1- Installing Nmap from binary RPMs
-`rpm -vhU https://nmap.org/dist/nmap-4.68-1.i386.rpm`
-2- Building and installing Nmap from source RPMs
-`rpmbuild --rebuild https://nmap.org/dist/nmap-4.68-1.src.rpm`
 
+rpm -vhU https://nmap.org/dist/nmap-4.68-1.i386.rpm
+
+2- Building and installing Nmap from source RPMs
+
+rpmbuild --rebuild https://nmap.org/dist/nmap-4.68-1.src.rpm
+```
+```
 Installing Nmap from a system Yum repository
-`yum install nmap`
+
+yum install nmap
 
 Installing Nmap from a system Apt repository
-`apt-get install nmap.`
+
+apt-get install nmap
 ```
 
 https://nmap.org/book/inst-linux.html#inst-rpm 

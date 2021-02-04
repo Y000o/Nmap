@@ -41,10 +41,11 @@ https://nmap.org/download.html
 
 Para instalar la herramienta en sistemas windows tenemos que seguir los siguientes pasos:
 
+```
 1 - descargar el siguiente archivo: https://nmap.org/dist/nmap-7.91-win32.zip 
 2 - Descomprimir el archivo 
 3 - Ejecutar el archivo nmap.exe desde la terminal (ej. "CMD")
-
+```
 ### Linux
 
 En linux tenemos la oportunidad de instalar desde el codigo fuente o desde las paqueterías, si instalamos desde las paqueterías los comandos cambiarán dependientdo la distribucion. 
@@ -52,7 +53,7 @@ En linux tenemos la oportunidad de instalar desde el codigo fuente o desde las p
 Ejemplos:
 
 Instalando desde RPMs 
-
+```
 1- Installing Nmap from binary RPMs
 `rpm -vhU https://nmap.org/dist/nmap-4.68-1.i386.rpm`
 2- Building and installing Nmap from source RPMs
@@ -63,7 +64,7 @@ Installing Nmap from a system Yum repository
 
 Installing Nmap from a system Apt repository
 `apt-get install nmap.`
-
+```
 
 https://nmap.org/book/inst-linux.html#inst-rpm 
 
@@ -72,9 +73,10 @@ https://nmap.org/book/inst-linux.html#inst-rpm
 
 pasos para instalar nmap en mac:
 
+```
 1 - descargar el siguiente archivo: https://nmap.org/dist/nmap-7.91.dmg
 2 - instalar.
-
+```
 https://nmap.org/book/inst-macosx.html
 
 ## Port scanning

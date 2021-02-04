@@ -117,7 +117,7 @@ Ejemplo: scanme.nmap.org
 –exclude –excludefile fichero excluir sistemas desde fichero
 
 ### Descubrir sistemas
-
+```
 -PS n tcp syn ping
 -PA n ping TCP ACK
 -PU n ping UDP
@@ -131,9 +131,9 @@ Ejemplo: scanme.nmap.org
 -R Resolver DNS en todos los sistemas objetivo
 –traceroute: trazar ruta al sistema (para topologías de red)
 -sP realizar ping, igual que con –PP –PM –PS443 –PA80
-
+```
 ### Técnicas de análisis de puertos
-
+```
 -sS análisis utilizando TCP SYN
 -sT análisis utilizando TCP CONNECT
 -sU análisis utilizando UDP
@@ -143,9 +143,9 @@ Ejemplo: scanme.nmap.org
 -sW ventana TCP -sN
 –sF -sX NULL, FIN, XMAS
 –sA TCP ACK
-
+```
 ### Puertos a analizar y orden de análisis
-
+```
 -p n-mrango
 -p– todos los puertos
 -p n,m,z especificados
@@ -153,9 +153,9 @@ Ejemplo: scanme.nmap.org
 -F rápido, los 100 comunes
 –top-ports n analizar los puertos más utilizados
 -r no aleatorio
-
+```
 ### Duración y ejecución
-
+```
 -T0 paranoico
 -T1 sigiloso
 -T2 sofisticado
@@ -173,9 +173,9 @@ Ejemplo: scanme.nmap.org
 –initial-rtt-timeout
 –max-retries
 –host-timeout –scan-delay
-
+```
 ### Detección de servicios y versiones
-
+```
 -sV: detección de la versión de servicios
 –all-ports no excluir puertos
 –version-all probar cada exploración
@@ -183,9 +183,9 @@ Ejemplo: scanme.nmap.org
 -O activar detección del S. Operativo
 –fuzzy adivinar detección del SO
 –max-os-tries establecer número máximo de intentos contra el sistema objetivo
-
+```
 ### Evasión de Firewalls/IDS
-
+```
 -f fragmentar paquetes
 -D d1,d2 encubrir análisis con señuelos
 -S ip falsear dirección origen
@@ -197,9 +197,9 @@ Parámetros de nivel de detalle y depuración
 –reason motivos por sistema y puerto
 -d (1-9) establecer nivel de depuración
 –packet-trace ruta de paquetes
-
+```
 ### Otras opciones
-
+```
 –resume file continuar análisis abortado (tomando formatos de salida con -oN o -oG)
 -6 activar análisis IPV6
 -A agresivo, igual que con -O -sV -sC –traceroute
@@ -217,7 +217,7 @@ Formatos de salida
 -oX guardar en formato XML
 -oG guardar en formato para posteriormente usar Grep
 -oA guardar en todos los formatos anteriores
-
+```
 
 Principalmente estos son los comandos de que dispone Nmap. Antes de terminar, debemos decir que Nmap dispone de multitud de opciones con las que poder realizar completos análisis de redes. Podemos consultar todas las opciones disponibles tecleando:
 

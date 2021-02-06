@@ -14,6 +14,14 @@
          * [URG](#URG)
          * [FIN](#FIN)
 * [Listado de todos los comandos básicos](#Listado-de-todos-los-comandos-básicos)
+    * [Seleccionar objetivos](#Seleccionar-objetivos)
+    * [Descubrir sistemas](#Descubrir-sistemas)
+    * [Técnicas de análisis de puertos](#Técnicas-de-análisis-de-puertos)
+    * [Puertos a analizar y orden de análisis](#Puertos-a-analizar-y-orden-de-análisis)
+    * [Duración y ejecución](#Duración-y-ejecución)
+    * [Detección de servicios y versiones](#Detección-de-servicios-y-versiones)
+    * [Evasión de Firewalls/IDS](#Evasión-de-Firewalls/IDS)
+    * [Otras opciones](#Otras-opciones)
 
 
 
@@ -134,14 +142,50 @@ En este apartado se utilizan comandos para descubrir los HOST que estan dentro d
 –traceroute: trazar ruta al sistema (para topologías de red)
 -sP realizar ping, igual que con –PP –PM –PS443 –PA80
 ```
-#### PS
 
+Vamos a ver algunos ejemplos:
+
+los siguientes son parecidos, ya que tienen un comportamiento similar pero cambia la flag que se utiliza:
+```
+-PS n tcp syn ping
+-PA n ping TCP ACK
+-PU n ping UDP
+```
+
+#### -PS
+
+-PS n tcp syn ping
+
+```
 Esta opción envía un paquete TCP vacío con la flag SYN activada. El puerto de destino predeterminado es 80. Los puertos alternativos se pueden especificar como parámetro. La sintaxis es la misma que para -p excepto que no se permiten especificadores de tipo de puerto como T :. Los ejemplos son -PS22 y -PS22-25,80,113,1050,35000.
 
 La frag SYN sugiere al sistema remoto que está intentando establecer una conexión. Normalmente, el puerto de destino se cerrará y se enviará un paquete RST (restablecimiento). Si el puerto está abierto, el destino dará el segundo paso de un protocolo de enlace de tres vías de TCP respondiendo con un paquete SYN / ACK TCP. La máquina que ejecuta Nmap luego rompe la conexión naciente respondiendo con un RST en lugar de enviar un paquete ACK que completaría el protocolo de enlace de tres vías y establecería una conexión completa. El paquete RST es enviado por el kernel de la máquina que ejecuta Nmap en respuesta al SYN / ACK inesperado, no por Nmap en sí.
-
+```
 ejemplo: `nmap -PS scanme.nmap.org`
 
+##### -PO
+
+-PO ping por protocolo
+```
+El ping del protocolo IP, envía paquetes IP con el número de protocolo especificado establecido en su encabezado IP. La lista de protocolos tiene el mismo formato que las listas de puertos en las opciones de detección de host TCP, UDP y SCTP discutidas anteriormente.
+```
+
+#### -PN
+
+-Pn (No ping)
+
+```
+Esta opción omite por completo la etapa de descubrimiento de host. Normalmente, Nmap usa esta etapa para determinar las máquinas activas para un escaneo más pesado y para medir la velocidad de la red. De forma predeterminada, Nmap solo realiza un sondeo intenso, como análisis de puertos, detección de versiones o detección de SO contra hosts que se encuentran activos. Deshabilitar el descubrimiento de host con -Pn hace que Nmap intente las funciones de escaneo solicitadas contra cada dirección IP de destino especificada.
+```
+#### -Traceroute
+
+–traceroute: trazar ruta al sistema (para topologías de red)
+
+Personalmente me gusta mucho el output de esta opcion, no se... me siento bien hacker con la pantalla asi.
+
+```
+Traceroute funciona mediante el envío de paquetes con un TTL (tiempo de vida) bajo en un intento de obtener mensajes ICMP de tiempo excedido de saltos intermedios entre el escáner y el host de destino. Las implementaciones de traceroute estándar comienzan con un TTL de 1 y aumentan el TTL hasta que se alcanza el host de destino. El traceroute de Nmap comienza con un TTL alto y luego disminuye el TTL hasta que llega a cero. Hacerlo al revés permite a Nmap emplear algoritmos de almacenamiento en caché inteligentes para acelerar los seguimientos en múltiples hosts. En promedio, Nmap envía de 5 a 10 paquetes menos por host, según las condiciones de la red.
+```
 
 
 ### Técnicas de análisis de puertos

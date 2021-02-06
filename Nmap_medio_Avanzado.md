@@ -156,39 +156,43 @@ los siguientes son parecidos, ya que tienen un comportamiento similar pero cambi
 
 -PS n tcp syn ping
 
-```
+
 Esta opción envía un paquete TCP vacío con la flag SYN activada. El puerto de destino predeterminado es 80. Los puertos alternativos se pueden especificar como parámetro. La sintaxis es la misma que para -p excepto que no se permiten especificadores de tipo de puerto como T :. Los ejemplos son -PS22 y -PS22-25,80,113,1050,35000.
 
 La frag SYN sugiere al sistema remoto que está intentando establecer una conexión. Normalmente, el puerto de destino se cerrará y se enviará un paquete RST (restablecimiento). Si el puerto está abierto, el destino dará el segundo paso de un protocolo de enlace de tres vías de TCP respondiendo con un paquete SYN / ACK TCP. La máquina que ejecuta Nmap luego rompe la conexión naciente respondiendo con un RST en lugar de enviar un paquete ACK que completaría el protocolo de enlace de tres vías y establecería una conexión completa. El paquete RST es enviado por el kernel de la máquina que ejecuta Nmap en respuesta al SYN / ACK inesperado, no por Nmap en sí.
-```
+
 ejemplo: `nmap -PS scanme.nmap.org`
 
 ##### -PO
 
 -PO ping por protocolo
-```
+
+
 El ping del protocolo IP, envía paquetes IP con el número de protocolo especificado establecido en su encabezado IP. La lista de protocolos tiene el mismo formato que las listas de puertos en las opciones de detección de host TCP, UDP y SCTP discutidas anteriormente.
-```
+
 
 #### -PN
 
 -Pn (No ping)
 
-```
+
 Esta opción omite por completo la etapa de descubrimiento de host. Normalmente, Nmap usa esta etapa para determinar las máquinas activas para un escaneo más pesado y para medir la velocidad de la red. De forma predeterminada, Nmap solo realiza un sondeo intenso, como análisis de puertos, detección de versiones o detección de SO contra hosts que se encuentran activos. Deshabilitar el descubrimiento de host con -Pn hace que Nmap intente las funciones de escaneo solicitadas contra cada dirección IP de destino especificada.
-```
+
 #### -Traceroute
 
 –traceroute: trazar ruta al sistema (para topologías de red)
 
 Personalmente me gusta mucho el output de esta opcion, no se... me siento bien hacker con la pantalla asi.
 
-```
+
 Traceroute funciona mediante el envío de paquetes con un TTL (tiempo de vida) bajo en un intento de obtener mensajes ICMP de tiempo excedido de saltos intermedios entre el escáner y el host de destino. Las implementaciones de traceroute estándar comienzan con un TTL de 1 y aumentan el TTL hasta que se alcanza el host de destino. El traceroute de Nmap comienza con un TTL alto y luego disminuye el TTL hasta que llega a cero. Hacerlo al revés permite a Nmap emplear algoritmos de almacenamiento en caché inteligentes para acelerar los seguimientos en múltiples hosts. En promedio, Nmap envía de 5 a 10 paquetes menos por host, según las condiciones de la red.
-```
+
 
 
 ### Técnicas de análisis de puertos
+
+Esta sección documenta la docena de técnicas de escaneo de puertos compatibles con Nmap. De forma predeterminada, Nmap realiza un SYN Scan, aunque sustituye a un connect scan si el usuario no tiene los privilegios adecuados para enviar paquetes sin procesar (requiere acceso de root en Unix).
+
 ```
 -sS análisis utilizando TCP SYN
 -sT análisis utilizando TCP CONNECT
@@ -200,7 +204,70 @@ Traceroute funciona mediante el envío de paquetes con un TTL (tiempo de vida) b
 –sF -sX NULL, FIN, XMAS
 –sA TCP ACK
 ```
+
+#### -sS
+
+-sS análisis utilizando TCP SYN
+
+El análisis SYN es la opción de análisis predeterminada y más popular por buenas razones. Se puede realizar rápidamente, escaneando miles de puertos por segundo en una red rápida no obstaculizada por firewalls restrictivos. También es relativamente discreto y sigiloso, ya que nunca completa las conexiones TCP. El escaneo SYN funciona contra cualquier pila TCP compatible en lugar de depender de la idiosincrasia de plataformas específicas como lo hacen los escaneos FIN / NULL / Xmas, Maimon e inactivos de Nmap. También permite una diferenciación clara y confiable entre los estados abierto, cerrado y filtrado.
+
+
+#### -sT
+
+-sT análisis utilizando TCP CONNECT
+
+El escaneo de conexión TCP es el tipo de escaneo TCP predeterminado cuando el escaneo SYN no es una opción. Este es el caso cuando un usuario no tiene privilegios de paquetes sin procesar. En lugar de escribir paquetes sin procesar como hacen la mayoría de los otros tipos de escaneo, Nmap solicita al sistema operativo subyacente que establezca una conexión con la máquina y el puerto de destino emitiendo la llamada al sistema de conexión. Esta es la misma llamada al sistema de alto nivel que utilizan los navegadores web, los clientes P2P y la mayoría de las otras aplicaciones habilitadas para la red para establecer una conexión. Es parte de una interfaz de programación conocida como Berkeley Sockets API. En lugar de leer las respuestas de paquetes sin procesar, Nmap usa esta API para obtener información de estado en cada intento de conexión.
+
+#### -sU
+
+-sU análisis utilizando UDP
+
+Si bien los servicios más populares en Internet se ejecutan sobre el protocolo TCP, los servicios UDP se implementan ampliamente. DNS, SNMP y DHCP (puertos registrados 53, 161/162 y 67/68) son tres de los más comunes. Debido a que el escaneo UDP es generalmente más lento y más difícil que TCP, algunos auditores de seguridad ignoran estos puertos. Esto es un error, ya que los servicios UDP explotables son bastante comunes y los atacantes ciertamente no ignoran todo el protocolo. Afortunadamente, Nmap puede ayudar a inventariar puertos UDP.
+
+#### -sY
+
+-sY análisis utilizando SCTP INIT
+
+SCTP es una alternativa relativamente nueva a los protocolos TCP y UDP, que combina la mayoría de las características de TCP y UDP, y también agrega nuevas características como multi-homing y multi-streaming. Se usa principalmente para servicios relacionados con SS7 / SIGTRAN, pero también tiene el potencial de usarse para otras aplicaciones. El escaneo SCTP INIT es el equivalente SCTP de un escaneo TCP SYN. Se puede realizar rápidamente, escaneando miles de puertos por segundo en una red rápida no obstaculizada por firewalls restrictivos. Al igual que el análisis SYN, el análisis INIT es relativamente discreto y sigiloso, ya que nunca completa las asociaciones SCTP. También permite una diferenciación clara y confiable entre los estados abierto, cerrado y filtrado.
+
+#### -sZ
+
+-sZ utilizando COOKIE ECHO de SCTP
+
+El escaneo SCTP COOKIE ECHO es un escaneo SCTP más avanzado. Aprovecha el hecho de que las implementaciones de SCTP deben eliminar silenciosamente los paquetes que contienen fragmentos COOKIE ECHO en los puertos abiertos, pero enviar un ABORT si el puerto está cerrado. La ventaja de este tipo de escaneo es que no es tan obvio un escaneo de puertos como un escaneo INIT. Además, puede haber conjuntos de reglas de firewall sin estado que bloqueen los fragmentos INIT, pero no los fragmentos COOKIE ECHO. No se deje engañar pensando que esto hará que un escaneo de puertos sea invisible; un buen IDS también podrá detectar escaneos SCTP COOKIE ECHO. La desventaja es que los escaneos SCTP COOKIE ECHO no pueden diferenciar entre puertos abiertos y filtrados, dejándolo con el estado abierto | filtrado en ambos casos.
+
+#### -sO
+
+-sO protocolo IP
+
+El escaneo de protocolo IP le permite determinar qué protocolos IP (TCP, ICMP, IGMP, etc.) son compatibles con las máquinas de destino. Técnicamente, esto no es un escaneo de puertos, ya que recorre los números de protocolo IP en lugar de los números de puerto TCP o UDP. Sin embargo, todavía usa la opción -p para seleccionar números de protocolo escaneados, informa sus resultados dentro del formato de tabla de puertos normal e incluso usa el mismo motor de escaneo subyacente que los métodos de escaneo de puertos verdaderos. Así que está lo suficientemente cerca de un escaneo de puertos que pertenece aquí.
+
+#### -sW 
+
+-sW ventana TCP -sN
+
+El escaneo de ventana es exactamente lo mismo que el escaneo ACK, excepto que aprovecha un detalle de implementación de ciertos sistemas para diferenciar los puertos abiertos de los cerrados, en lugar de imprimir siempre sin filtrar cuando se devuelve un RST. Para ello, examina el campo de ventana TCP de los paquetes RST devueltos. En algunos sistemas, los puertos abiertos usan un tamaño de ventana positivo (incluso para paquetes RST) mientras que los cerrados tienen una ventana cero. Entonces, en lugar de enumerar siempre un puerto como sin filtrar cuando recibe un RST, el escaneo de Windows enumera el puerto como abierto o cerrado si el valor de la ventana TCP en ese restablecimiento es positivo o cero, respectivamente.
+
+#### –sF -sX NULL, FIN, XMAS
+
+–sF -sX NULL, FIN, XMAS
+
+Estos tres tipos de escaneo (incluso más son posibles con la opción --scanflags que se describe en la siguiente sección) aprovechan una laguna sutil en el RFC de TCP para diferenciar entre puertos abiertos y cerrados. La página 65 de RFC 793 dice que "si el estado del puerto [de destino] está CERRADO ... un segmento entrante que no contiene un RST hace que se envíe un RST en respuesta". Luego, la página siguiente analiza los paquetes enviados a puertos abiertos sin los bits SYN, RST o ACK configurados, indicando que: "es poco probable que llegue aquí, pero si lo hace, elimine el segmento y regrese".
+
+Al escanear sistemas que cumplen con este texto RFC, cualquier paquete que no contenga bits SYN, RST o ACK dará como resultado un RST devuelto si el puerto está cerrado y no habrá respuesta si el puerto está abierto. Siempre que no se incluya ninguno de esos tres bits, cualquier combinación de los otros tres (FIN, PSH y URG) está bien.
+
+#### –sA TCP ACK
+
+–sA TCP ACK
+
+Este escaneo es diferente a los otros discutidos hasta ahora en que nunca determina puertos abiertos (o incluso abiertos | filtrados). Se utiliza para mapear conjuntos de reglas de firewall, determinando si tienen estado o no y qué puertos se filtran.
+
+
+
 ### Puertos a analizar y orden de análisis
+
+Nmap ofrece opciones para especificar qué puertos se escanean y si el orden de escaneo es aleatorio o secuencial. De forma predeterminada, Nmap escanea los 1000 puertos más comunes para cada protocolo.
+
 ```
 -p n-mrango
 -p– todos los puertos
@@ -210,7 +277,12 @@ Traceroute funciona mediante el envío de paquetes con un TTL (tiempo de vida) b
 –top-ports n analizar los puertos más utilizados
 -r no aleatorio
 ```
+
+
+
 ### Duración y ejecución
+
+
 ```
 -T0 paranoico
 -T1 sigiloso
@@ -230,6 +302,10 @@ Traceroute funciona mediante el envío de paquetes con un TTL (tiempo de vida) b
 –max-retries
 –host-timeout –scan-delay
 ```
+
+
+
+
 ### Detección de servicios y versiones
 ```
 -sV: detección de la versión de servicios

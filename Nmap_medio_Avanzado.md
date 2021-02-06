@@ -14,11 +14,7 @@
          * [URG](#URG)
          * [FIN](#FIN)
 * [Listado de todos los comandos básicos](#Listado-de-todos-los-comandos-básicos)
-* [Características](#Características)
-* [Instalación](#Instalación)
-    * [Windows](#Windows)
-    * [Linux](#Linux)
-    * [Mac OS](#Mac-OS)
+
 
 
 Esta es la continuación al escrito "Nmap - Básico" en donde se habló solamente de las caracteristicas de esta herramienta, el uso que se le da, y dejamos un poco de lado la parte "practica" centrado el escrito de una forma mas "teorica" y de esa manera poder conocer "básico" para no perdernos entre las opciones que esta herramienta nos permite utilizar.
@@ -138,10 +134,13 @@ En este apartado se utilizan comandos para descubrir los HOST que estan dentro d
 –traceroute: trazar ruta al sistema (para topologías de red)
 -sP realizar ping, igual que con –PP –PM –PS443 –PA80
 ```
+#### PS
 
+Esta opción envía un paquete TCP vacío con la flag SYN activada. El puerto de destino predeterminado es 80. Los puertos alternativos se pueden especificar como parámetro. La sintaxis es la misma que para -p excepto que no se permiten especificadores de tipo de puerto como T :. Los ejemplos son -PS22 y -PS22-25,80,113,1050,35000.
 
+La frag SYN sugiere al sistema remoto que está intentando establecer una conexión. Normalmente, el puerto de destino se cerrará y se enviará un paquete RST (restablecimiento). Si el puerto está abierto, el destino dará el segundo paso de un protocolo de enlace de tres vías de TCP respondiendo con un paquete SYN / ACK TCP. La máquina que ejecuta Nmap luego rompe la conexión naciente respondiendo con un RST en lugar de enviar un paquete ACK que completaría el protocolo de enlace de tres vías y establecería una conexión completa. El paquete RST es enviado por el kernel de la máquina que ejecuta Nmap en respuesta al SYN / ACK inesperado, no por Nmap en sí.
 
-
+ejemplo: `nmap -PS scanme.nmap.org`
 
 
 

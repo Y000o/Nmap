@@ -330,6 +330,9 @@ Estas opciones controlan el número total de sondas que pueden estar pendientes 
 
 
 ### Detección de servicios y versiones
+
+Apunte Nmap a una máquina remota y podría decirle que los puertos 25 / tcp, 80 / tcp y 53 / udp están abiertos. Utilizando su base de datos nmap-services de unos 2.200 servicios bien conocidos, Nmap informaría que esos puertos probablemente corresponden a un servidor de correo (SMTP), servidor web (HTTP) y servidor de nombres (DNS) respectivamente. Esta búsqueda suele ser precisa: la gran mayoría de los demonios que escuchan en el puerto TCP 25 son, de hecho, servidores de correo. Sin embargo, ¡no debes apostar tu seguridad a esto! La gente puede ejecutar servicios en puertos extraños.
+
 ```
 -sV: detección de la versión de servicios
 –all-ports no excluir puertos
@@ -339,6 +342,19 @@ Estas opciones controlan el número total de sondas que pueden estar pendientes 
 –fuzzy adivinar detección del SO
 –max-os-tries establecer número máximo de intentos contra el sistema objetivo
 ```
+
+#### -sV
+
+Habilita la detección de versiones, como se discutió anteriormente. Alternativamente, puede usar -A, que habilita la detección de versiones, entre otras cosas.
+
+#### –O 
+
+Habilita la detección del sistema operativo, como se discutió anteriormente. Alternativamente, puede usar -A para habilitar la detección del sistema operativo junto con otras cosas.
+
+#### -Fuzzy
+
+Cuando Nmap no puede detectar una coincidencia perfecta de sistema operativo, a veces ofrece posibilidades similares. La coincidencia tiene que ser muy cercana para que Nmap haga esto por defecto. Cualquiera de estas opciones (equivalentes) hace que Nmap adivine de manera más agresiva. Nmap aún le dirá cuando se imprima una coincidencia imperfecta y mostrará su nivel de confianza (porcentaje) para cada conjetura.
+
 ### Evasión de Firewalls/IDS
 ```
 -f fragmentar paquetes

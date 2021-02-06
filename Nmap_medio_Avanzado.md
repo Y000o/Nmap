@@ -256,7 +256,7 @@ Estos tres tipos de escaneo (incluso más son posibles con la opción --scanflag
 
 Al escanear sistemas que cumplen con este texto RFC, cualquier paquete que no contenga bits SYN, RST o ACK dará como resultado un RST devuelto si el puerto está cerrado y no habrá respuesta si el puerto está abierto. Siempre que no se incluya ninguno de esos tres bits, cualquier combinación de los otros tres (FIN, PSH y URG) está bien.
 
-#### –sA TCP ACK
+#### –sA 
 
 –sA TCP ACK
 
@@ -303,6 +303,29 @@ Nmap ofrece opciones para especificar qué puertos se escanean y si el orden de 
 –host-timeout –scan-delay
 ```
 
+#### -T 
+
+-T paranoid|sneaky|polite|normal|aggressive|insane (Set a timing template)
+
+Estas plantillas le permiten al usuario especificar qué tan agresivo desea ser, mientras deja que Nmap elija los valores de tiempo exactos. Las plantillas también realizan algunos ajustes de velocidad menores para los que actualmente no existen opciones de control detalladas. Por ejemplo, -T4 prohíbe que el retardo de exploración dinámica exceda los 10 ms para los puertos TCP y -T5 limita ese valor a 5 ms. Las plantillas se pueden usar en combinación con controles detallados, y los controles detallados que especifique tendrán prioridad sobre la plantilla de tiempo predeterminada para ese parámetro. Recomiendo usar -T4 al escanear redes razonablemente modernas y confiables. Mantenga esa opción incluso cuando agregue controles detallados para que se beneficie de esas optimizaciones menores adicionales que habilita.
+
+Puede especificarlos con la opción -T y su número (0–5) o su nombre. Los nombres de las plantillas son paranoico (0), furtivo (1), educado (2), normal (3), agresivo (4) y loco (5). Los dos primeros son para la evasión de IDS. El modo educado ralentiza el análisis para utilizar menos ancho de banda y menos recursos de la máquina de destino. El modo normal es el predeterminado y, por lo tanto, -T3 no hace nada. Las velocidades del modo agresivo aumentan asumiendo que se encuentra en una red razonablemente rápida y confiable. Finalmente, el modo loco asume que estás en una red extraordinariamente rápida o que estás dispuesto a sacrificar algo de precisión por velocidad.
+
+
+#### --Min/Max-hostgroup 
+
+--min-hostgroup <numhosts>; --max-hostgroup <numhosts> 
+
+Nmap tiene la capacidad de escanear puertos o escanear versiones de múltiples hosts en paralelo. Nmap hace esto dividiendo el espacio de IP de destino en grupos y luego escaneando un grupo a la vez. En general, los grupos más grandes son más eficientes. La desventaja es que los resultados del host no se pueden proporcionar hasta que todo el grupo haya terminado. Entonces, si Nmap comenzó con un tamaño de grupo de 50, el usuario no recibiría ningún informe (excepto las actualizaciones que se ofrecen en modo detallado) hasta que se completen los primeros 50 hosts.
+
+
+#### --Min/Max-parallelism
+
+--min-parallelism <numprobes>; --max-parallelism <numprobes>
+
+Estas opciones controlan el número total de sondas que pueden estar pendientes para un grupo de hosts. Se utilizan para escanear puertos y descubrir hosts. De forma predeterminada, Nmap calcula un paralelismo ideal en constante cambio basado en el rendimiento de la red. Si se descartan paquetes, Nmap se ralentiza y permite menos sondeos pendientes. El número de sonda ideal aumenta lentamente a medida que la red demuestra su valía. Estas opciones colocan límites mínimos o máximos en esa variable. De forma predeterminada, el paralelismo ideal puede reducirse a uno si la red resulta poco fiable y aumentar a varios cientos en perfectas condiciones.
+
+#### 
 
 
 

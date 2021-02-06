@@ -6,6 +6,7 @@
     * [TCP/IP](#TCP/IP)
     * [Transmission Control Protocol (TCP)](#Transmission-Control-Protocol-(TCP))
     * [Estado de los puertos](#Estado-de-los-puertos)
+    <details>
     * [Flags](#Flags)
          * [SYN](#SYN)
          * [ACK](#ACK)
@@ -13,6 +14,7 @@
          * [PSH](#PSH)
          * [URG](#URG)
          * [FIN](#FIN)
+   </details>
 * [Listado de todos los comandos básicos](#Listado-de-todos-los-comandos-básicos)
     * [Seleccionar objetivos](#Seleccionar-objetivos)
     * [Descubrir sistemas](#Descubrir-sistemas)

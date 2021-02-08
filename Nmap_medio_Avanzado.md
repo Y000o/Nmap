@@ -541,7 +541,6 @@ nmap -sV --script=vulscan/vulscan.nse www.example.com   -------->   r1ms3c @r1ms
 ```
 
 
-
 ## Nmap Scripting Engine
 
 Despues de ver las opciones básicas que esta herramienta nos ofrece, ahora vamos a enfocarnos en los scripts que tenemos para mejorar nuestros escaneos.
@@ -574,7 +573,53 @@ All: ejecuta absolutamente todos los scripts con extensión NSE disponibles
 
 Para este escrito vamos a analizar el uso de algunos de estos scripts, en total son 604 y los pueden encontrar aqui: https://nmap.org/nsedoc/
 
-Ejemplos de scripts por categorias:
+#### Scripts más populares
+
+Cuando se trata de más de 600 scripts, no es fácil encontrar los más populares inspeccionándolos uno por uno. Es por eso que el equipo de Nmap ha creado una opción "-sC", que le permite ejecutar los principales scripts de Nmap a la vez.
+
+`nmap -sC scanme.nmap.org`
+
+#### Scripts dentro de una categoría.
+
+Otras veces, necesitará ejecutar todos los scripts dentro de una categoría. Esto se puede hacer usando el nombre de la "categoría de guión", como puede ver aquí:
+
+ejemplos:
+
+```
+nmap --script discovery scanme.nmap.org
+nmap --script default,safe scanme.nmap.org
+```
+
+#### Scripts con un comodín
+
+Nmap también le permite ejecutar scripts usando comodines, lo que significa que puede apuntar a varios scripts que terminan o terminan con cualquier patrón. Por ejemplo:
+
+```
+nmap --script "ftp-\*" scanme.nmap.org
+nmap --script "ssh-\*" scanme.nmap.org
+```
+
+#### Ejecute un único script de Nmap
+
+Esta es la solución perfecta cuando ya sabe qué script se utilizará. Por ejemplo, si queremos ejecutar el script http-brute para realizar una auditoría de contraseña de fuerza bruta contra la autenticación http basic, digest y ntlm, usaremos:
+
+`nmap --script="http-brute" 192.168.122.1`
+
+#### --script http-enum 
+
+El script nos permite hacer un ataque de fuerza bruta en una ruta de servidor para descubrir aplicaciones web en uso. Prueba más de 2000 rutas de servidor.
+
+https://twitter.com/_Y000_/status/1206452331967139842
+
+#### --script ssl-poodle
+
+vamos a detectar si una pagina es vulnerable a "sslv3 supported (poodle attack others)"(cve-2014-3566)
+
+https://twitter.com/_Y000_/status/1206336129835896833
+
+#### 
+
+
 
 
 

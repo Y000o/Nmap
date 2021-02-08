@@ -22,7 +22,7 @@
     * [Detección de servicios y versiones](#Detección-de-servicios-y-versiones)
     * [Evasión de Firewalls/IDS](#Evasión-de-Firewalls/IDS)
     * [Otras opciones](#Otras-opciones)
-    * [Ejemplos de comandos utiles](#Ejemplos-de-comandos-utiles)
+* [Ejemplos de comandos utiles](#Ejemplos-de-comandos-utiles)
 * [Nmap Scripting Engine](#Nmap-Scripting-Engine)
     
     
@@ -518,10 +518,26 @@ nmap-sV 192.168.1.1
 
 #### Escaneo completo de puertos TCP usando detección de versión de servicio.
 
+`nmap -p 1-65535 -sV -sS -T4 scanme.nmap.org`
 
+Mas informacion de como funciona el comando: https://explainshell.com/explain?cmd=nmap+-v+-sS+-A+-T4+target
 
+## RECOMENDADOS 
 
+```
+nmap -v -sS -A -T4 target
+nmap -v -sS -A -T5 target
+nmap -v -sV -O -sS -T5 target
+nmap -v -p 1-65535 -sV -O -sS -T4 target
+nmap -v -p 1-65535 -sV -O -sS -T5 target
+nmap -A -T4 -Pn --script=ssl-enum-ciphers,http-security-headers,http-waf-detect,vuln -------->  Ulises M. Alvarez @umalvarez
+for((;;));do nmap -sP <randomIp/24> >> nameFile;done  -------->  @ov3rflow1 
+nmap --min-rate 4500 --max-rtt-timeout 1500ms -p- {IP} --------> Funkadelic @0xSalle
+nmap -sS -n -Pn -p- --max-rtt-timeout 100ms --min-parallelism 1000 {IP} --------> Funkadelic @0xSalle
+nmap --max-retries=0 <ip>  -------->  Panico @Chungo_0
+nmap -sV --script=vulscan/vulscan.nse www.example.com   -------->   r1ms3c @r1ms3c
 
+```
 
 
 

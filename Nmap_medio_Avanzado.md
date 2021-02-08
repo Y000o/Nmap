@@ -30,19 +30,12 @@
     * [XSS](#XSS)
     * [SQLi](#SQLi)
 * [VULSCAN](#VULSCAN)
-    * [Instalación(#Instalación)
+    * [Instalación](#Instalación)
 * [AUTOMATIZANDO](#AUTOMATIZANDO)
     * [NSE-NMAP](#NSE-NMAP)
     * [Vulmap](#Vulmap)
     * [Brute-map](#Brute-map)
-
-
-  
- 
-
-    
-    
-RECOMENDADOS
+* [Agradecimientos](#Agradecimientos)    
 
 
 Esta es la continuación al escrito "Nmap - Básico" en donde se habló solamente de las caracteristicas de esta herramienta, el uso que se le da, y dejamos un poco de lado la parte "practica" centrado el escrito de una forma mas "teorica" y de esa manera poder conocer "básico" para no perdernos entre las opciones que esta herramienta nos permite utilizar.

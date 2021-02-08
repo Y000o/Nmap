@@ -22,6 +22,9 @@
     * [Detección de servicios y versiones](#Detección-de-servicios-y-versiones)
     * [Evasión de Firewalls/IDS](#Evasión-de-Firewalls/IDS)
     * [Otras opciones](#Otras-opciones)
+* [Nmap Scripting Engine](#Nmap-Scripting-Engine)
+    
+    
 
 
 
@@ -325,10 +328,6 @@ Nmap tiene la capacidad de escanear puertos o escanear versiones de múltiples h
 
 Estas opciones controlan el número total de sondas que pueden estar pendientes para un grupo de hosts. Se utilizan para escanear puertos y descubrir hosts. De forma predeterminada, Nmap calcula un paralelismo ideal en constante cambio basado en el rendimiento de la red. Si se descartan paquetes, Nmap se ralentiza y permite menos sondeos pendientes. El número de sonda ideal aumenta lentamente a medida que la red demuestra su valía. Estas opciones colocan límites mínimos o máximos en esa variable. De forma predeterminada, el paralelismo ideal puede reducirse a uno si la red resulta poco fiable y aumentar a varios cientos en perfectas condiciones.
 
-#### 
-
-
-
 ### Detección de servicios y versiones
 
 Apunte Nmap a una máquina remota y podría decirle que los puertos 25 / tcp, 80 / tcp y 53 / udp están abiertos. Utilizando su base de datos nmap-services de unos 2.200 servicios bien conocidos, Nmap informaría que esos puertos probablemente corresponden a un servidor de correo (SMTP), servidor web (HTTP) y servidor de nombres (DNS) respectivamente. Esta búsqueda suele ser precisa: la gran mayoría de los demonios que escuchan en el puerto TCP 25 son, de hecho, servidores de correo. Sin embargo, ¡no debes apostar tu seguridad a esto! La gente puede ejecutar servicios en puertos extraños.
@@ -369,6 +368,28 @@ Parámetros de nivel de detalle y depuración
 -d (1-9) establecer nivel de depuración
 –packet-trace ruta de paquetes
 ```
+
+#### -F
+
+-f fragmentar paquetes
+
+La opción -f hace que el análisis solicitado (incluidos los análisis de descubrimiento de host) utilice pequeños paquetes IP fragmentados. La idea es dividir el encabezado TCP en varios paquetes para que sea más difícil para los filtros de paquetes, los sistemas de detección de intrusos y otras molestias detectar lo que está haciendo.
+
+##### -D
+
+-D d1,d2 encubrir análisis con señuelos
+
+Realiza un sondeo con señuelos. Esto hace creer que el/los equipo/s que utilice como señuelos están también haciendo un sondeo de la red. De esta manera sus IDS pueden llegar a informar de que se están realizando de 5 a 10 sondeos de puertos desde distintas direcciones IP, pero no sabrán qué dirección IP está realizando el análisis y cuáles son señuelos inocentes. Aunque esta técnica puede vencerse mediante el seguimiento del camino de los encaminadores, descarte de respuesta («response-dropping», N. del T.), y otros mecanismos activos, generalmente es una técnica efectiva para esconder su dirección IP.
+
+#### -S
+
+-S ip falsear dirección origen
+
+Nmap puede que no sea capaz de determinar tu dirección IP en algunas ocasiones (Nmap se lo dirá si pasa). En esta situación, puede utilizar la opción -S con la dirección IP de la interfaz a través de la cual quieres enviar los paquetes.
+
+Otro uso alternativo de esta opción es la de falsificar la dirección para que los objetivos del análisis piensen que algún otro los está sondeando
+
+
 ### Otras opciones
 ```
 –resume file continuar análisis abortado (tomando formatos de salida con -oN o -oG)
@@ -390,6 +411,39 @@ Formatos de salida
 -oA guardar en todos los formatos anteriores
 ```
 
+## Nmap Scripting Engine
+
+Despues de ver las opciones básicas que esta herramienta nos ofrece, ahora vamos a enfocarnos en los scripts que tenemos para mejorar nuestros escaneos.
+
+NSE tiene una implementación compleja para la eficiencia, es sorprendentemente fácil de usar. Simplemente especifique -sC para habilitar los scripts más comunes. O especifique la opción --script para elegir sus propios scripts para ejecutar proporcionando categorías, nombres de archivos de script o el nombre de directorios llenos de scripts que desea ejecutar. Puede personalizar algunos scripts proporcionándoles argumentos a través de las opciones --script-args y --script-args-file. --Script-help muestra una descripción de lo que hace cada script seleccionado. Las dos opciones restantes, --script-trace y --script-updatedb, generalmente solo se usan para la depuración y el desarrollo de scripts. El análisis de secuencias de comandos también se incluye como parte de la opción -A (análisis agresivo)
+
+El escaneo de scripts se realiza normalmente en combinación con un escaneo de puertos, porque los scripts pueden ejecutarse o no, dependiendo de los estados de los puertos encontrados por el escaneo. Con la opción -sn es posible ejecutar un escaneo de script sin un escaneo de puerto, solo descubrimiento de host. En este caso, solo se podrán ejecutar los scripts de host. Para ejecutar un escaneo de script sin un descubrimiento de host ni un escaneo de puerto, use las opciones -Pn -sn junto con -sC o --script. Se asumirá que todos los hosts están activos y aún así solo se ejecutarán los scripts de host. Esta técnica es útil para scripts como whois-ip que solo usan la dirección del sistema remoto y no requieren que esté activo.
+
+Estos se clasifican en las siguientes categorias:
+
+```
+Auth: ejecuta todos sus scripts disponibles para autenticación
+
+Default: ejecuta los scripts básicos por defecto de la herramienta
+
+Discovery: recupera información del target o víctima
+
+External: script para utilizar recursos externos
+
+Intrusive: utiliza scripts que son considerados intrusivos para la víctima o target
+
+Malware: revisa si hay conexiones abiertas por códigos maliciosos o backdoors (puertas traseras)
+
+Safe: ejecuta scripts que no son intrusivos
+
+Vuln: descubre las vulnerabilidades más conocidas
+
+All: ejecuta absolutamente todos los scripts con extensión NSE disponibles
+```
+
+Para este escrito vamos a analizar el uso de algunos de estos scripts, en total son 604 y los pueden encontrar aqui: https://nmap.org/nsedoc/
+
+Ejemplos de scripts por categorias:
 
 
 

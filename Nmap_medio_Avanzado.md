@@ -25,6 +25,14 @@
 * [Ejemplos de comandos utiles](#Ejemplos-de-comandos-utiles)
 * [RECOMENDADOS](#RECOMENDADOS)
 * [Nmap Scripting Engine](#Nmap-Scripting-Engine)
+* [Scripts útiles](#Scripts-útiles)
+* [XSS y SQLi?](#XSS-y-SQLi?)
+    * [XSS](#XSS)
+    * [SQLi](#SQLi)
+    
+   
+
+
     
     
 RECOMENDADOS
@@ -537,6 +545,11 @@ nmap --min-rate 4500 --max-rtt-timeout 1500ms -p- {IP} --------> Funkadelic @0xS
 nmap -sS -n -Pn -p- --max-rtt-timeout 100ms --min-parallelism 1000 {IP} --------> Funkadelic @0xSalle
 nmap --max-retries=0 <ip>  -------->  Panico @Chungo_0
 nmap -sV --script=vulscan/vulscan.nse www.example.com   -------->   r1ms3c @r1ms3c
+nmap IP --open -oG resultados; cat resultados | grep "/open" | cut -d " " -f 2 > IPs_activas  -------->  alert(Y000!) @_Y000_
+nmap -iR 10 -sn   -------->  alert(Y000!) @_Y000_
+nmap -sV --script=banner <IP>   -------->   alert(Y000!) @_Y000_
+
+
 
 ```
 
@@ -605,23 +618,105 @@ Esta es la solución perfecta cuando ya sabe qué script se utilizará. Por ejem
 
 `nmap --script="http-brute" 192.168.122.1`
 
-#### --script http-enum 
+### Scripts útiles
+
+#### http-enum 
 
 El script nos permite hacer un ataque de fuerza bruta en una ruta de servidor para descubrir aplicaciones web en uso. Prueba más de 2000 rutas de servidor.
 
 https://twitter.com/_Y000_/status/1206452331967139842
 
-#### --script ssl-poodle
+#### ssl-poodle
 
 vamos a detectar si una pagina es vulnerable a "sslv3 supported (poodle attack others)"(cve-2014-3566)
 
 https://twitter.com/_Y000_/status/1206336129835896833
 
-#### 
+#### http-grep
+
+El script http-grep busca información útil en la página dada. De forma predeterminada, devuelve las direcciones de correo electrónico y las direcciones IP que se encuentran en todas las subpáginas descubiertas por el script.
+
+#### ssh-brute
+
+El script ssh-brute se usa para romper las contraseñas de servicios SSH con la entrada de texto predictivo. De forma predeterminada, utiliza su propia base de datos, más bien una extensa base de datos de usuarios y contraseñas.
+
+#### dns-brute 
+
+El script dns-brute intenta encontrar tantos subdominios como se esté probando el host utilizando los nombres de subdominio utilizados con más frecuencia.
+
+#### http-config-backup
+
+El script http-config-backup envía muchas consultas al servidor web, tratando de obtener una copia de la configuración del popular CMS que dejó el usuario o el editor de texto.
+
+#### smb-enum-users
+
+La tarea del script smb-enum-users es enumerar todos los usuarios disponibles en el sistema de Windows escaneado.
+
+#### firewalk
+
+El script Firewalk, utilizando la técnica de seguimiento de paquetes (traceroute) y el paso de TTL, conocido como firewalking, intenta detectar reglas de firewall / gateway.
+
+#### mysql-empty-password
+
+El script mysql-empty-password comprueba si es posible iniciar sesión en el servidor MySQL a la cuenta raíz o anónima utilizando una contraseña vacía.
+
+#### mysql-users
+
+The mysql-users script is used to list the users available on the MySQL server. To list, we will use the root account with an empty password, which we discovered in the previous script.
+
+#### mysql-brute
+
+El script mysql-brute se usa para romper los datos de acceso al servidor MySQL. El script anterior ha detectado al probador de usuarios cuya contraseña ahora intentaremos romper.
+
+#### http-sitemap-generator
+
+Este script nos permite hacer un sitemap de las páginas, generalmente más usado en los puertos 80 y 443
+
+https://twitter.com/_Y000_/status/1206614332538314752
+
+#### --traceroute + --script traceroute-geolocation
+
+script nos permite enumerar las ubicaciones geográficas de cada salto en una ruta de seguimiento y opcionalmente, guarda los resultados en un archivo KML, que se puede trazar en Google Earth y en mapas.
+
+https://twitter.com/_Y000_/status/1206678017856151553
+
+## XSS y SQLi?
+
+### XSS 
+
+Scripts de nmap que nos ayudarán a encontrár errores xss:
+
+```
+http-stored-xss
+http-phpself-xss
+http-xssed
+http-unsafe-output-escaping
+```
+
+https://twitter.com/_Y000_/status/1261309010331877376
 
 
+### SQLi 
+
+Scripts de nmap que nos ayudarán a encontrár errores SQLi:
+
+```
+http-sql-injection
+http-unsafe-output-escaping
+```
+
+https://twitter.com/_Y000_/status/1266626563384066048
 
 
+### Scripts para WORDPRESS
+
+http-wordpress-users
+http-wordpress-enum
+http-wordpress-brute
+
+## VULSCAN
+
+script=vulscan/vulscan.nse
 
 
 

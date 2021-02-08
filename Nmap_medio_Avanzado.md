@@ -22,6 +22,7 @@
     * [Detección de servicios y versiones](#Detección-de-servicios-y-versiones)
     * [Evasión de Firewalls/IDS](#Evasión-de-Firewalls/IDS)
     * [Otras opciones](#Otras-opciones)
+    * [Ejemplos de comandos utiles](#Ejemplos-de-comandos-utiles)
 * [Nmap Scripting Engine](#Nmap-Scripting-Engine)
     
     
@@ -410,6 +411,119 @@ Formatos de salida
 -oG guardar en formato para posteriormente usar Grep
 -oA guardar en todos los formatos anteriores
 ```
+
+## Ejemplos de comandos utiles
+
+#### Lea la lista de hosts / redes desde un archivo
+
+`nmap -iL /ruta/prueba.txt`
+
+#### Exclusión de hosts / redes
+
+`nmap 192.168.1.0/24 - exclude 192.168.1.5,192.168.1.254`
+
+#### Para saber si un host / red están protegidos por un firewall
+
+`nmap -sA scanme.nmap.org`
+
+#### Escanear un host si está protegido por el firewall
+
+`nmap -PN scanme.nmap.org`
+
+#### Escanear una red y averiguar qué servidores y dispositivos están en marcha
+
+`nmap -sP 192.168.1.0/24`
+
+#### Mostrar únicamente los puertos abiertos
+
+`nmap -open scanme.nmap.org`
+
+#### Muestra todos los paquetes enviados y recibidos
+
+`nmap -packet-trace scanme.nmap.org`
+
+#### ¿Cómo puedo escanear puertos específicos?
+
+```
+ nmap-p [puerto] hostName
+ # # Escanear el puerto 80
+ nmap-p 80 192.168 0,1 0,1
+
+ # # Escanear el puerto TCP 80
+ nmap -p T: 80 192.168 0,1 0,1
+
+ # # Scan UDP puerto 53
+ nmap -p U: 53 192.168 0,1 0,1
+
+ # # Escanear dos puertos # #
+ nmap -p 80, 443 192.168 0,1 0,1
+
+ # # Escanea rangos de puertos # #
+ nmap -p 80 -200 192.168 0,1 0,1
+
+ # # Combinar todas las opciones # #
+ nmap -p U: 53, 111, 137, T: 21 -25, 80, 139, 8080 192.168 0,1 0,1
+ nmap -p U: 53, 111, 137, T: 21 -25, 80, 139, 8080 server1.cyberciti.biz
+ nmap -v -sU -sT -p U: 53, 111, 137, T: 21 -25, 80, 139, 8080 192.168 0,1 0.254
+
+ # # Analizar todos los puertos con comodín * # #
+ nmap -p "*" 192.168 0,1 0,1
+
+ # # Escanear puertos principales, es decir $ escanear puertos numéricos más comunes # #
+ nmap - TOP-puertos 5 192.168 0,1 0,1
+ nmap - top-ports 10 192.168 0,1 0,1
+```
+#### ¿Cómo puedo detectar el sistema operativo remoto?
+
+```
+ nmap -O 192.168 0,1 0,1
+ nmap -O -osscan-Supongo 192.168 0,1 0,1
+ nmap -v -O -osscan-Supongo 192.168 0,1 0,1
+```
+
+#### Escanear un host que utiliza TCP ACK (PA) y TCP Syn (PS) de ping
+
+```
+ nmap -PS 192.168.1.1
+ nmap -PS 80,21,443 192.168.1.1
+ nmap -PA 192.168.1.1
+ nmap -PA 80,21,200-512 192.168.1.1
+```
+
+#### ¿Cómo puedo detectar servicios remotos (servidor / daemon) números de versión?
+
+```
+nmap-sV 192.168.1.1
+```
+
+#### Escanear un host para servicios UDP
+
+`nmap -sU scanme.nmap.org`
+
+#### Digitalizar un firewall para la debilidad en la seguridad
+
+```
+# # TCP Null Scan para engañar a un servidor de seguridad para generar una respuesta # #
+ # # No establece ningún bit (encabezado TCP bandera es 0) # #
+ nmap -sN scanme.nmap.org
+
+ # # TCP Fin scan para comprobar firewall # #
+ # # Establece sólo el bit FIN TCP # #
+ nmap -sF scanme.nmap.org
+
+ # # TCP Xmas escaneado para comprobar firewall # #
+ # # Establece el FIN, PSH, URG y banderas, encendiendo el paquete como un árbol de Navidad # #
+ nmap -sX scanme.nmap.org
+```
+
+#### Escaneo completo de puertos TCP usando detección de versión de servicio.
+
+
+
+
+
+
+
 
 ## Nmap Scripting Engine
 

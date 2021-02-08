@@ -23,10 +23,11 @@
     * [Evasión de Firewalls/IDS](#Evasión-de-Firewalls/IDS)
     * [Otras opciones](#Otras-opciones)
 * [Ejemplos de comandos utiles](#Ejemplos-de-comandos-utiles)
+* [RECOMENDADOS](#RECOMENDADOS)
 * [Nmap Scripting Engine](#Nmap-Scripting-Engine)
     
     
-
+RECOMENDADOS
 
 
 Esta es la continuación al escrito "Nmap - Básico" en donde se habló solamente de las caracteristicas de esta herramienta, el uso que se le da, y dejamos un poco de lado la parte "practica" centrado el escrito de una forma mas "teorica" y de esa manera poder conocer "básico" para no perdernos entre las opciones que esta herramienta nos permite utilizar.

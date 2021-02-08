@@ -29,9 +29,16 @@
 * [XSS y SQLi?](#XSS-y-SQLi?)
     * [XSS](#XSS)
     * [SQLi](#SQLi)
-    
-   
+* [VULSCAN](#VULSCAN)
+    * [Instalación(#Instalación)
+* [AUTOMATIZANDO](#AUTOMATIZANDO)
+    * [NSE-NMAP](#NSE-NMAP)
+    * [Vulmap](#Vulmap)
+    * [Brute-map](#Brute-map)
 
+
+  
+ 
 
     
     
@@ -716,11 +723,98 @@ http-wordpress-brute
 
 ## VULSCAN
 
+Nmap tambien cuenta con ayuda de terceros quienes aportan sus scripts a la comunidad, y esto se agradece demasioado ya que tenemos que hablar de este script. 
+
+Lo que hace este script es buscar vulnerabilidades directamente desde una base de datos y nos muetra la informacíon en caso de encontrar algo. 
+
+https://github.com/scipag/vulscan
+
+Vulscan es un módulo que mejora nmap a un escáner de vulnerabilidades. La opción nmap -sV permite la detección de versiones por servicio que se utiliza para determinar posibles fallas de acuerdo con el producto identificado. Los datos se buscan en una versión sin conexión de VulDB.
 script=vulscan/vulscan.nse
 
+### Instalación 
 
+Instale los archivos en la siguiente carpeta de su instalación de Nmap:
 
+`Nmap\scripts\vulscan\*`
 
+Clona el repositorio de GitHub así:
 
+```
+git clone https://github.com/scipag/vulscan scipag_vulscan
+ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan  
+```
 
+## AUTOMATIZANDO
+
+Por último me gustaría animarlos a que automatizen sus escaneos. Como ejemplo hablaré de 3 herramientas que me creé para mi uso personal pero estan publicadas en mi cuenta de github.
+
+### NSE-NMAP
+
+#### ¿Qué es nse-nmap?
+
+Es una herramienta escrita en bash que fué creada especificamente para automatizar los escaneos usados en nmap.
+
+Encontraremos un menú en donde los escaneos se organizan en 3 tipos:
+
+```
+-Basicos
+-Avanzados
+-NSE
+```
+
+En la categoria Basicos encontraremos escaneos:
+
+```
+-verificar objetivos vivios
+-objetivos vivos en un rago de ip´s
+-escaneos SYN, FIN, UDP 
+```
+
+En la categoria Avanzado encontramos escaneos:
+
+```
+-Escaneo de protocolos
+-Escaneo de servicios
+-Escaneo fingerprint (root)
+-Escaneo agresivo
+-Escaneo de traceroute (root)
+-Escaneo de whois
+```
+
+por ultimo en NSE encontramos los script NSE:
+
+```
+-Enumeracion http
+-Titulo http
+-Fuerza bruta de dns
+-Encuentra errores HTTP
+-Datos EXIF de las fotos
+-Fuerza bruta a FTP
+-Fuerza bruta a mysql
+-Detección de firewall
+-Fingerprint de Firewall
+```
+
+Lo pueden encontrar aqui: https://github.com/Y000o/nse-nmap
+
+### Vulmap
+
+Vulmap es una herramienta basica para buscar vulnerabilidades en sitios web, con esta herramienta podemos buscar vulnerabilidades en sitios creados en Wordpress, inyecciones xss e inyecciones SQL.
+
+lo pueden encontrar aqui: https://github.com/Y000o/vulmap
+
+### Brute-map
+
+Brute-map es un automatizador de escaneos de fuerza bruta a diferentes servicios.
+
+lo pueden encontrar aqui: https://github.com/Y000o/Brute-map
+
+## Agradecimientos 
+
+Antes de terminar este escrito me gustaría agradecer a todas las personas que se toman un tiempo en leer mis escritos, se que no soy el mejor exponente en esto, tengo tantos errores como cualquier otra persona, por eso les doy las gracias.. por siempre estar ahí apoyando ya sea aportando contenido o ayudandome a mejorar mis escritos una ves estan terminados.
+
+Como siempre siempre comento despues de cada escrito, por favor sientanse libres de comentarme cualquier duda, algun error, algo que les gustaría mejorar u aportar. 
+
+Muchas gracias!.
 
